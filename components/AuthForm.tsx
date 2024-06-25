@@ -23,6 +23,7 @@ import { Divide, Loader2 } from 'lucide-react';
 import { authFormSchema } from '@/lib/utils';
 import CustomInput from './CustomInput';
 import { useRouter } from 'next/navigation';
+import { signIn, signUp } from '@/lib/actions/user.actions';
 
 const AuthForm = ({type}:{type:string}) => {
   const router = useRouter();
@@ -44,18 +45,18 @@ const AuthForm = ({type}:{type:string}) => {
     try {
       
       if(type === 'sign-up') {
-        // const newUser = await signUp(data);
+        const newUser = await signUp(data);
         
-        // setuser(newUser);
+        setuser(newUser);
       }
 
       if(type === 'sign-in') {
-        // const response = await signIn({
-        //   email: data.email,
-        //   password: data.password
-        // })
+        const response = await signIn({
+          email: data.email,
+          password: data.password
+        })
         
-        // if(response) router.push('/')
+        if(response) router.push('/')
       }
     } catch (error) {
       console.log(error)
@@ -107,10 +108,10 @@ const AuthForm = ({type}:{type:string}) => {
                         <>
                           <div className='flex gap-4'>
                             <CustomInput control={form.control}
-                            name='firstname' label='First Name'
+                            name='firstName' label='First Name'
                             placeholder='ex: John'/>
                             <CustomInput control={form.control}
-                            name='lastname' label='Last Name'
+                            name='lastName' label='Last Name'
                             placeholder='ex: Doe'/>
                           </div>
                           
@@ -147,6 +148,7 @@ const AuthForm = ({type}:{type:string}) => {
                       <CustomInput control={form.control}
                       name='password' label='Password'
                       placeholder='Enter your password'/>
+                      
                     <div className='flex flex-col gap-4'>
                         <Button type="submit" disabled={isLoading}
                         className="form-btn">
