@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,6 +24,7 @@ import { authFormSchema } from '@/lib/utils';
 import CustomInput from './CustomInput';
 import { useRouter } from 'next/navigation';
 import { signIn, signUp } from '@/lib/actions/user.actions';
+import PlaidLink from './PlaidLink';
 
 const AuthForm = ({type}:{type:string}) => {
   const router = useRouter();
@@ -43,9 +44,23 @@ const AuthForm = ({type}:{type:string}) => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true)
     try {
-      
+
+      const userData = {
+        firstName:data.firstName!,
+        lastName: data.lastName!,
+        address1: data.address1!,
+        city: data.city!,
+        state: data.state!,
+        postalCode: data.postalcode!,
+        dateOfBirth: data.dateOfBirth!,
+        ssn: data.ssn!,
+        email: data.email,
+        password: data.password
+      }
+
+
       if(type === 'sign-up') {
-        const newUser = await signUp(data);
+        const newUser = await signUp(userData);
         
         setuser(newUser);
       }
@@ -97,7 +112,7 @@ const AuthForm = ({type}:{type:string}) => {
         </header>
         {user ? (
             <div className='flex flex-col gap-4'>
-                {}
+                <PlaidLink user={user} variant="primary"/>
             </div>
         ) : (
             <>
@@ -177,7 +192,7 @@ const AuthForm = ({type}:{type:string}) => {
 
                </footer>
             </>
-        )}
+         )} 
     </section>
   )
 }
