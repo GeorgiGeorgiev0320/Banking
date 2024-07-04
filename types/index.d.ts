@@ -89,7 +89,7 @@ declare type Bank = {
   accessToken: string;
   fundingSourceUrl: string;
   userId: string;
-  sharableId: string;
+  sharaebleId: string;
 };
 
 declare type AccountTypes =
